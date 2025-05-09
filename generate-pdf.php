@@ -4,13 +4,11 @@ require __DIR__ . '/vendor/autoload.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-$name = $_POST['name'];
-$quantity = $_POST['quantity'];
-
-//$html = "<img src='img/invoice.png'>";
-//$html .= "<h1 style='color: cornflowerblue'>Your Invoice</h1>";
-//$html .= "Hello <em>$name</em>";
-//$html .= "Quantity: $quantity";
+$address = $_POST['address'];
+$postcode = $_POST['postcode'];
+$email = $_POST['email'];
+$invoice = $_POST['invoice'];
+$date = $_POST['date'];
 
 $options = new Options();
 $options->setChroot(__DIR__);
@@ -21,7 +19,10 @@ $dompdf = new Dompdf($options);
 $dompdf->setPaper("A4", "landscape");
 
 $html = file_get_contents("template.html");
-$html = str_replace(["{{ name }}", "{{ quantity }}"],[$name, $quantity], $html);
+$html = str_replace(["{{ address }}", "{{ postcode }}", "{{ email }}", "{{ invoice }}",
+    "{{ date }}"],
+    [$address, $postcode, $email, $invoice, $date], $html);
+
 
 $dompdf->loadHtml($html);
 //$dompdf->loadHtmlFile("template.html");
